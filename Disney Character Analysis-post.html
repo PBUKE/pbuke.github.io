@@ -7,7 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-        <title>First Post</title>
+        <title>Disney Character Analysis</title>
 
         <!-- Bootstrap Core CSS -->
         <link href="/theme/css/bootstrap.min.css" rel="stylesheet">
@@ -33,26 +33,32 @@
 
 
 
-        <meta name="description" content="My first post, read it to find out.">
+        <meta name="description" content="An Analysis on Disney Characters and movie genres over years">
 
         <meta name="author" content="Pinar Buke">
 
-        <meta name="tags" content="python firsts">
+        <meta name="tags" content="matplotlid">
+        <meta name="tags" content="visulazation">
+        <meta name="tags" content="python">
+        <meta name="tags" content="machinelearning">
+        <meta name="tags" content="prediction">
+        <meta name="tags" content="scipy">
+        <meta name="tags" content="sckitlearn">
 
 	                <meta property="og:locale" content="">
 		<meta property="og:site_name" content="Pinar's DataLog">
 
 	<meta property="og:type" content="article">
             <meta property="article:author" content="/author/pinar-buke.html">
-	<meta property="og:url" content="/first-post.html">
-	<meta property="og:title" content="First Post">
-	<meta property="article:published_time" content="2016-06-08 20:00:00+02:00">
-            <meta property="og:description" content="My first post, read it to find out.">
+	<meta property="og:url" content="/Disney Character Analysis-post.html">
+	<meta property="og:title" content="Disney Character Analysis">
+	<meta property="article:published_time" content="2018-06-08 20:00:00+02:00">
+            <meta property="og:description" content="An Analysis on Disney Characters and movie genres over years">
 
-            <meta property="og:image" content="/static/blog_cover1.png">
+            <meta property="og:image" content="static/disney.jpg">
 </head>
 
-<body class="article-first-post">
+<body class="article-Disney Character Analysis-post">
 
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
@@ -80,15 +86,15 @@
     </nav>
 
     <!-- Page Header -->
-        <header class="intro-header" style="background-image: url('/static/blog_cover1.png')">
+        <header class="intro-header" style="background-image: url('/static/disney.jpg')">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <div class="post-heading">
-                        <h1>First Post</h1>
+                        <h1>Disney Character Analysis</h1>
                         <span class="meta">Posted by
                                 <a href="/author/pinar-buke.html">Pinar Buke</a>
-                             on Wed 08 June 2016
+                             on Fri 08 June 2018
                         </span>
                         
                     </div>
@@ -1219,12 +1225,558 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
  .highlight pre  .vg { color: #19177C } /* Name.Variable.Global */
  .highlight pre  .vi { color: #19177C } /* Name.Variable.Instance */
  .highlight pre  .vm { color: #19177C } /* Name.Variable.Magic */
- .highlight pre  .il { color: #666666 } /* Literal.Number.Integer.Long */</style><div class="cell border-box-sizing code_cell rendered">
+ .highlight pre  .il { color: #666666 } /* Literal.Number.Integer.Long */</style><div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="1.Dataset">1.Dataset<a class="anchor-link" href="#1.Dataset">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Walt Disney Studios has produced more than 600 films since their debut film, Snow White and the Seven Dwarfs in 1937. While many of its films were big hits, some of them were not. In this notebook, we will explore a dataset of Disney movies and analyze what contributes to the success of Disney movies.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>First, we will take a look at the Disney data compiled by Kelly Garrett. The data contains 579 Disney movies with six features: movie title, release date, genre, MPAA rating, total gross, and inflation-adjusted gross.</p>
+<p>Let's load the file and see what the data looks like.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Import pandas library</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="c1"># Read the file into gross</span>
+<span class="n">gross</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/disney_movies_total_gross.csv&#39;</span><span class="p">,</span> <span class="n">parse_dates</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;release_date&#39;</span><span class="p">])</span>
+
+<span class="c1"># Print out gross</span>
+<span class="n">gross</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[3]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>movie_title</th>
+      <th>release_date</th>
+      <th>genre</th>
+      <th>mpaa_rating</th>
+      <th>total_gross</th>
+      <th>inflation_adjusted_gross</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Snow White and the Seven Dwarfs</td>
+      <td>1937-12-21</td>
+      <td>Musical</td>
+      <td>G</td>
+      <td>184925485</td>
+      <td>5228953251</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Pinocchio</td>
+      <td>1940-02-09</td>
+      <td>Adventure</td>
+      <td>G</td>
+      <td>84300000</td>
+      <td>2188229052</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Fantasia</td>
+      <td>1940-11-13</td>
+      <td>Musical</td>
+      <td>G</td>
+      <td>83320000</td>
+      <td>2187090808</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Song of the South</td>
+      <td>1946-11-12</td>
+      <td>Adventure</td>
+      <td>G</td>
+      <td>65000000</td>
+      <td>1078510579</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Cinderella</td>
+      <td>1950-02-15</td>
+      <td>Drama</td>
+      <td>G</td>
+      <td>85000000</td>
+      <td>920608730</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="2.-Top-ten-movies-at-the-box-office">2. Top ten movies at the box office<a class="anchor-link" href="#2.-Top-ten-movies-at-the-box-office">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's started by exploring the data. We will check which are the 10 Disney movies that have earned the most at the box office. We can do this by sorting movies by their inflation-adjusted gross (we will call it adjusted gross from this point onward).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Sort data by the adjusted gross in descending order </span>
+<span class="n">inflation_adjusted_gross_desc</span> <span class="o">=</span> <span class="n">gross</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;inflation_adjusted_gross&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># Display the top 10 movies </span>
+<span class="n">inflation_adjusted_gross_desc</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[4]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>movie_title</th>
+      <th>release_date</th>
+      <th>genre</th>
+      <th>mpaa_rating</th>
+      <th>total_gross</th>
+      <th>inflation_adjusted_gross</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Snow White and the Seven Dwarfs</td>
+      <td>1937-12-21</td>
+      <td>Musical</td>
+      <td>G</td>
+      <td>184925485</td>
+      <td>5228953251</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Pinocchio</td>
+      <td>1940-02-09</td>
+      <td>Adventure</td>
+      <td>G</td>
+      <td>84300000</td>
+      <td>2188229052</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Fantasia</td>
+      <td>1940-11-13</td>
+      <td>Musical</td>
+      <td>G</td>
+      <td>83320000</td>
+      <td>2187090808</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>101 Dalmatians</td>
+      <td>1961-01-25</td>
+      <td>Comedy</td>
+      <td>G</td>
+      <td>153000000</td>
+      <td>1362870985</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Lady and the Tramp</td>
+      <td>1955-06-22</td>
+      <td>Drama</td>
+      <td>G</td>
+      <td>93600000</td>
+      <td>1236035515</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Song of the South</td>
+      <td>1946-11-12</td>
+      <td>Adventure</td>
+      <td>G</td>
+      <td>65000000</td>
+      <td>1078510579</td>
+    </tr>
+    <tr>
+      <th>564</th>
+      <td>Star Wars Ep. VII: The Force Awakens</td>
+      <td>2015-12-18</td>
+      <td>Adventure</td>
+      <td>PG-13</td>
+      <td>936662225</td>
+      <td>936662225</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Cinderella</td>
+      <td>1950-02-15</td>
+      <td>Drama</td>
+      <td>G</td>
+      <td>85000000</td>
+      <td>920608730</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>The Jungle Book</td>
+      <td>1967-10-18</td>
+      <td>Musical</td>
+      <td>Not Rated</td>
+      <td>141843000</td>
+      <td>789612346</td>
+    </tr>
+    <tr>
+      <th>179</th>
+      <td>The Lion King</td>
+      <td>1994-06-15</td>
+      <td>Adventure</td>
+      <td>G</td>
+      <td>422780140</td>
+      <td>761640898</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="3.-Movie-genre-trend">3. Movie genre trend<a class="anchor-link" href="#3.-Movie-genre-trend">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>From the top 10 movies above, it seems that some genres are more popular than others. So, we will check which genres are growing stronger in popularity. To do this, we will group movies by genre and then by year to see the adjusted gross of each genre in each year.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Hello&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span> <span class="c1"># Extract year from release_date and store it in a new column</span>
+<span class="n">gross</span><span class="p">[</span><span class="s1">&#39;release_year&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">(</span><span class="n">gross</span><span class="p">[</span><span class="s1">&#39;release_date&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">year</span> 
+
+<span class="c1"># Compute mean of adjusted gross per genre and per year</span>
+<span class="n">group</span> <span class="o">=</span> <span class="n">gross</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;genre&#39;</span><span class="p">,</span> <span class="s1">&#39;release_year&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="c1"># Convert the GroupBy object to a DataFrame</span>
+<span class="n">genre_yearly</span> <span class="o">=</span> <span class="n">group</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+
+<span class="c1"># Inspect genre_yearly </span>
+<span class="n">genre_yearly</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="4.-Visualize-the-genre-popularity-trend">4. Visualize the genre popularity trend<a class="anchor-link" href="#4.-Visualize-the-genre-popularity-trend">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We will make a plot out of these means of groups to better see how box office revenues have changed over time.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="5.-Data-transformation">5. Data transformation<a class="anchor-link" href="#5.-Data-transformation">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The line plot supports our belief that some genres are growing faster in popularity than others. For Disney movies, Action and Adventure genres are growing the fastest. Next, we will build a linear regression model to understand the relationship between genre and box office gross.</p>
+<p>Since linear regression requires numerical variables and the genre variable is a categorical variable, we'll use a technique called one-hot encoding to convert the categorical variables to numerical. This technique transforms each category value into a new column and assigns a 1 or 0 to the column.</p>
+<p>For this dataset, there will be 11 dummy variables, one for each genre except the action genre which we will use as a baseline. For example, if a movie is an adventure movie, like The Lion King, the adventure variable will be 1 and other dummy variables will be 0. Since the action genre is our baseline, if a movie is an action movie, such as The Avengers, all dummy variables will be 0.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="6.-The-genre-effect">6. The genre effect<a class="anchor-link" href="#6.-The-genre-effect">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now that we have dummy variables, we can build a linear regression model to predict the adjusted gross using these dummy variables.</p>
+<p>From the regression model, we can check the effect of each genre by looking at its coefficient given in units of box office gross dollars. We will focus on the impact of action and adventure genres here. (Note that the intercept and the first coefficient values represent the effect of action and adventure genres respectively). We expect that movies like the Lion King or Star Wars would perform better for box office.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="7.-Confidence-intervals-for-regression-parameters-(i)">7. Confidence intervals for regression parameters (i)<a class="anchor-link" href="#7.-Confidence-intervals-for-regression-parameters-(i)">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Next, we will compute 95% confidence intervals for the intercept and coefficients. The 95% confidence intervals for the intercept a and coefficient bi means that the intervals have a probability of 95% to contain the true value a and coefficient bi respectively. If there is a significant relationship between a given genre and the adjusted gross, the confidence interval of its coefficient should exclude 0.</p>
+<p>We will calculate the confidence intervals using the pairs bootstrap method.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="8.-Confidence-intervals-for-regression-parameters-(ii)">8. Confidence intervals for regression parameters (ii)<a class="anchor-link" href="#8.-Confidence-intervals-for-regression-parameters-(ii)">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>After the initialization, we will perform pair bootstrap estimates for the regression parameters. Note that we will draw a sample from a set of (genre, adjusted gross) data where the genre is the original genre variable. We will perform one-hot encoding after that.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="9.-Confidence-intervals-for-regression-parameters-(iii)">9. Confidence intervals for regression parameters (iii)<a class="anchor-link" href="#9.-Confidence-intervals-for-regression-parameters-(iii)">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Finally, we compute 95% confidence intervals for the intercept and coefficient and examine if they exclude 0. If one of them (or both) does, then it is unlikely that the value is 0 and we can conclude that there is a significant relationship between that genre and the adjusted gross.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="10.-Should-Disney-make-more-action-and-adventure-movies?">10. Should Disney make more action and adventure movies?<a class="anchor-link" href="#10.-Should-Disney-make-more-action-and-adventure-movies?">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The confidence intervals from the bootstrap method for the intercept and coefficient do not contain the value zero, as we have already seen that lower and upper bounds of both confidence intervals are positive. These tell us that it is likely that the adjusted gross is significantly correlated with the action and adventure genres.</p>
+<p>From the results of the bootstrap analysis and the trend plot we have done earlier, we could say that Disney movies with plots that fit into the action and adventure genre, according to our data, tend to do better in terms of adjusted gross than other genres. So we could expect more Marvel, Star Wars, and live-action movies in the upcoming years!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
 </pre></div>
 
     </div>
@@ -1267,7 +1819,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
     </article>
 
         <div class="tags">
-            <p>tags: <a href="/tag/python-firsts.html">python firsts</a></p>
+            <p>tags: <a href="/tag/matplotlid.html">matplotlid</a>, <a href="/tag/visulazation.html">visulazation</a>, <a href="/tag/python.html">python</a>, <a href="/tag/machinelearning.html">machinelearning</a>, <a href="/tag/prediction.html">prediction</a>, <a href="/tag/scipy.html">scipy</a>, <a href="/tag/sckitlearn.html">sckitlearn</a></p>
         </div>
 
     <hr>
