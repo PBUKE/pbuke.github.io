@@ -1,0 +1,10 @@
+---
+Title: Blood Donation Gives Life
+Slug: blood-donation prediction-post
+Date: 2022-12-18 20:00
+Category: posts
+Tags: TPOT, python, machinelearning, prediction, scipy, sckitlearn
+author: Pinar Buke
+Summary: A Machine Learning Project on Predicting Blood Donation
+Header_cover: static/blood_donation.png 
+---
